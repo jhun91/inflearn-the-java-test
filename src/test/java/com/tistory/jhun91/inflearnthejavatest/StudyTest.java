@@ -1,10 +1,16 @@
 package com.tistory.jhun91.inflearnthejavatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 //@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StudyTest {
@@ -37,6 +43,30 @@ class StudyTest {
             Thread.sleep(300);
         });
         //TODO ThreadLocal 살펴보기!
+    }
+
+    @Test
+    void assumeTrueTest() {
+        String test_env = "LOCAL";  //System.getenv("TEST_ENV");
+        //System.out.println(test_env);
+        //assumeTrue("LOCAL".equalsIgnoreCase(test_env));
+
+        assumingThat("LOCAL".equalsIgnoreCase(test_env), () -> {
+            Study actual = new Study(10);
+            assertThat(actual.getLimit()).isGreaterThan(0);
+        });
+
+        assumingThat("OPER".equalsIgnoreCase(test_env), () -> {
+            Study actual = new Study(10);
+            assertThat(actual.getLimit()).isGreaterThan(0);
+        });
+    }
+
+    @Test
+    @EnabledOnOs(OS.WINDOWS)
+    @EnabledIfEnvironmentVariable(named = "TEST_ENV", matches = "LOCAL")
+    void assumeAnnotationTest() {
+
     }
 
     @BeforeAll
