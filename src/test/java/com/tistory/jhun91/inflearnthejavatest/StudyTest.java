@@ -16,7 +16,8 @@ import static org.junit.jupiter.api.Assumptions.assumingThat;
 class StudyTest {
 
     @Test
-    @DisplayName("스터디 만들기")
+    @DisplayName("스터디 만들기 fast")
+    @Tag("fast")
     void create_new_study() {
         Study study = new Study(-10);
 
@@ -28,6 +29,8 @@ class StudyTest {
     }
 
     @Test
+    @DisplayName("스터디 만들기 slow")
+    @Tag("slow")
     void create_new_study_again() {
         IllegalArgumentException exception =
                 assertThrows(IllegalArgumentException.class, () -> new Study(-10));
